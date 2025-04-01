@@ -24,3 +24,14 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+
+@keyframes breathe {
+  0% { background-color: black; }
+  50% { background-color: green; }
+  100% { background-color: black; }
+}
+
+.animate-breathe {
+  animation: breathe 2s infinite ease-in-out;
+}
