@@ -8,15 +8,23 @@ type RoverData = {
   battery?: number;
   coordinates?: number[];
   sensor_data?: {
-    temperature: number;
-    soil_moisture: number;
-    soil_pH: number;
-    battery_level: number;
+    temperature?: number;
+    soil_moisture?: number;
+    soil_pH?: number;
+    battery_level?: number;
   };
   error?: string;
 };
 
 const Analysis = ({ roversData, error }: { roversData: RoverData[], error: string | null }) => {
+  // Map rovers to labels R1, R2, R3, R4, R5
+  const formattedData = roversData.map((r1, index) => ({
+    name: `R${index + 1}`,
+    temperature: r1.sensor_data?.temperature ?? null,
+    soil_moisture: r1.sensor_data?.soil_moisture ?? 0,
+    soil_pH: r1.sensor_data?.soil_pH ?? null,
+  }));
+
   return (
     <section id="analysis" className="min-h-screen py-20">
       <h2 className="text-3xl font-bold text-center mb-8">Data Analysis</h2>
@@ -29,7 +37,7 @@ const Analysis = ({ roversData, error }: { roversData: RoverData[], error: strin
           <table className="w-full border-collapse border border-gray-800 text-white">
             <thead>
               <tr className="bg-gray-700">
-                <th className="border border-gray-600 px-4 py-2">ID</th>
+                <th className="border border-gray-600 px-4 py-2">Rover</th>
                 <th className="border border-gray-600 px-4 py-2">Status</th>
                 <th className="border border-gray-600 px-4 py-2">Temperature (°C)</th>
                 <th className="border border-gray-600 px-4 py-2">Soil Moisture (%)</th>
@@ -37,13 +45,13 @@ const Analysis = ({ roversData, error }: { roversData: RoverData[], error: strin
               </tr>
             </thead>
             <tbody>
-              {roversData.map((rover) => (
-                <tr key={rover.id} className="text-center">
-                  <td className="border border-gray-600 px-4 py-2">{rover.id}</td>
-                  <td className="border border-gray-600 px-4 py-2">{rover.status || 'N/A'}</td>
-                  <td className="border border-gray-600 px-4 py-2">{rover.sensor_data?.temperature || 'N/A'}</td>
-                  <td className="border border-gray-600 px-4 py-2">{rover.sensor_data?.soil_moisture || 'N/A'}</td>
-                  <td className="border border-gray-600 px-4 py-2">{rover.sensor_data?.soil_pH || 'N/A'}</td>
+              {roversData.map((r1, index) => (
+                <tr key={r1.id} className="text-center">
+                  <td className="border border-gray-600 px-4 py-2">R{index + 1}</td>
+                  <td className="border border-gray-600 px-4 py-2">{r1.status || 'N/A'}</td>
+                  <td className="border border-gray-600 px-4 py-2">{r1.sensor_data?.temperature ?? 'N/A'}</td>
+                  <td className="border border-gray-600 px-4 py-2">{r1.sensor_data?.soil_moisture ?? 'N/A'}</td>
+                  <td className="border border-gray-600 px-4 py-2">{r1.sensor_data?.soil_pH ?? 'N/A'}</td>
                 </tr>
               ))}
             </tbody>
@@ -54,14 +62,11 @@ const Analysis = ({ roversData, error }: { roversData: RoverData[], error: strin
             <div className="bg-gray-800 p-4 rounded-lg">
               <h3 className="text-center text-white">Temperature</h3>
               <ResponsiveContainer width="100%" height={200}>
-                <LineChart data={roversData.map((rover, index) => ({
-                  name: `Rover ${index + 1}`,
-                  temperature: rover.sensor_data?.temperature || 0,
-                }))}>
+                <LineChart data={formattedData}>
                   <XAxis dataKey="name" />
                   <YAxis />
                   <Tooltip />
-                  <Line type="monotone" dataKey="temperature" stroke="#8884d8" strokeWidth={2} />
+                  <Line type="monotone" dataKey="temperature" stroke="#8884d8" strokeWidth={2} connectNulls />
                 </LineChart>
               </ResponsiveContainer>
             </div>
@@ -70,10 +75,7 @@ const Analysis = ({ roversData, error }: { roversData: RoverData[], error: strin
             <div className="bg-gray-800 p-4 rounded-lg">
               <h3 className="text-center text-white">Soil Moisture</h3>
               <ResponsiveContainer width="100%" height={200}>
-                <BarChart data={roversData.map(rover => ({
-                  name: rover.id,
-                  soil_moisture: rover.sensor_data?.soil_moisture || 0,
-                }))}>
+                <BarChart data={formattedData}>
                   <XAxis dataKey="name" />
                   <YAxis />
                   <Tooltip />
@@ -86,14 +88,11 @@ const Analysis = ({ roversData, error }: { roversData: RoverData[], error: strin
             <div className="bg-gray-800 p-4 rounded-lg">
               <h3 className="text-center text-white">Soil pH</h3>
               <ResponsiveContainer width="100%" height={200}>
-                <LineChart data={roversData.map((rover, index) => ({
-                  name: `Rover ${index + 1}`,
-                  soil_pH: rover.sensor_data?.soil_pH || 0,
-                }))}>
+                <LineChart data={formattedData}>
                   <XAxis dataKey="name" />
                   <YAxis />
                   <Tooltip />
-                  <Line type="monotone" dataKey="soil_pH" stroke="#FF8042" strokeWidth={2} />
+                  <Line type="monotone" dataKey="soil_pH" stroke="#FF8042" strokeWidth={2} connectNulls />
                 </LineChart>
               </ResponsiveContainer>
             </div>
