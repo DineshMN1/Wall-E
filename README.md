@@ -18,6 +18,9 @@ The backend system provides real-time data updates for each rover, including env
 ## Alerts
 ![image](https://github.com/user-attachments/assets/23f8c260-860d-48e1-94f2-bde60e3c32e9)
 
+## N8N Workflow (Message Bot)
+![Screenshot 2025-04-02 152406](https://github.com/user-attachments/assets/b00a69da-e262-48bf-aaa8-b19880368bc0)
+
 ## Features
 
 - **Simulate Multiple Rovers**: Control multiple rovers in Webots, a robot simulation software.
