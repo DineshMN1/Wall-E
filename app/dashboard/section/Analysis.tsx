@@ -1,10 +1,12 @@
 'use client';
 import React from 'react';
-import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
+import {
+  LineChart, Line, BarChart, Bar, XAxis, YAxis,
+  CartesianGrid, Tooltip, ResponsiveContainer, Legend
+} from 'recharts';
 
 type RoverData = {
   id: string;
-  status?: string;
   battery?: number;
   coordinates?: number[];
   sensor_data?: {
@@ -16,8 +18,29 @@ type RoverData = {
   error?: string;
 };
 
-const Analysis = ({ roversData, error }: { roversData: RoverData[], error: string | null }) => {
-  // Map rovers to labels R1, R2, R3, R4, R5
+// 🧠 Calculate status
+const getRoverStatus = (sensorData: RoverData['sensor_data']): string => {
+  if (!sensorData) return 'N/A';
+
+  const { temperature, soil_moisture, soil_pH } = sensorData;
+
+  // You can fine-tune these thresholds
+  const isTempOk = temperature !== undefined && temperature >= 10 && temperature <= 40;
+  const isMoistureOk = soil_moisture !== undefined && soil_moisture >= 30 && soil_moisture <= 80;
+  const isPhOk = soil_pH !== undefined && soil_pH >= 5.5 && soil_pH <= 7.5;
+
+  if (isTempOk && isMoistureOk && isPhOk) return 'Good';
+  if (!isTempOk && isMoistureOk && isPhOk) return 'High/Low Temp';
+  if (isTempOk && !isMoistureOk && isPhOk) return 'Moisture Issue';
+  if (isTempOk && isMoistureOk && !isPhOk) return 'pH Issue';
+
+  return 'Needs Attention';
+};
+
+const Analysis = ({
+  roversData,
+  error
+}: { roversData: RoverData[], error: string | null }) => {
   const formattedData = roversData.map((r1, index) => ({
     name: `R${index + 1}`,
     temperature: r1.sensor_data?.temperature ?? null,
@@ -46,9 +69,9 @@ const Analysis = ({ roversData, error }: { roversData: RoverData[], error: strin
             </thead>
             <tbody>
               {roversData.map((r1, index) => (
-                <tr key={r1.id} className="text-center">
+                <tr key={r1.id || index} className="text-center">
                   <td className="border border-gray-600 px-4 py-2">R{index + 1}</td>
-                  <td className="border border-gray-600 px-4 py-2">{r1.status || 'N/A'}</td>
+                  <td className="border border-gray-600 px-4 py-2">{getRoverStatus(r1.sensor_data)}</td>
                   <td className="border border-gray-600 px-4 py-2">{r1.sensor_data?.temperature ?? 'N/A'}</td>
                   <td className="border border-gray-600 px-4 py-2">{r1.sensor_data?.soil_moisture ?? 'N/A'}</td>
                   <td className="border border-gray-600 px-4 py-2">{r1.sensor_data?.soil_pH ?? 'N/A'}</td>
@@ -58,7 +81,6 @@ const Analysis = ({ roversData, error }: { roversData: RoverData[], error: strin
           </table>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-            {/* Temperature Chart */}
             <div className="bg-gray-800 p-4 rounded-lg">
               <h3 className="text-center text-white">Temperature</h3>
               <ResponsiveContainer width="100%" height={200}>
@@ -71,7 +93,6 @@ const Analysis = ({ roversData, error }: { roversData: RoverData[], error: strin
               </ResponsiveContainer>
             </div>
 
-            {/* Soil Moisture Chart */}
             <div className="bg-gray-800 p-4 rounded-lg">
               <h3 className="text-center text-white">Soil Moisture</h3>
               <ResponsiveContainer width="100%" height={200}>
@@ -84,7 +105,6 @@ const Analysis = ({ roversData, error }: { roversData: RoverData[], error: strin
               </ResponsiveContainer>
             </div>
 
-            {/* Soil pH Line Chart */}
             <div className="bg-gray-800 p-4 rounded-lg">
               <h3 className="text-center text-white">Soil pH</h3>
               <ResponsiveContainer width="100%" height={200}>
