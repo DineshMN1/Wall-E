@@ -16,7 +16,7 @@ const Simulation = () => {
 
   return (
     <section className="min-h-screen py-20 bg-black text-white text-center">
-      <h1 className="text-3xl font-bold mb-4">🌐 Webots Simulation Controller</h1>
+      <h1 className="text-3xl font-bold mb-4">Webots Simulation Controller</h1>
 
       <div className="mb-4">
         <button
@@ -35,7 +35,7 @@ const Simulation = () => {
 
       <p className="text-xl font-semibold mb-6">{message}</p>
 
-      <h2 className="text-2xl mb-2">👾 Live Simulation Feed</h2>
+      <h2 className="text-2xl mb-2">Live Simulation Feed</h2>
       <img
         src="/api/flask/stream"  // 🔁 Proxy path
         alt="Live Stream"

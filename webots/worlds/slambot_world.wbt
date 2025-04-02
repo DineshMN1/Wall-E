@@ -1,0 +1,145 @@
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/robots/gctronic/e-puck/protos/E-puck.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/Parquetry.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/trees/protos/SimpleTree.proto"
+
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.19890558683402842 -0.19346446438809856 0.9607330891278997 4.6446599933216675
+  position 0.0301107245117887 3.405210616416046 1.6765985558736718
+}
+TexturedBackground {
+}
+SimpleTree {
+  height 0.1
+  radius 0.1
+}
+SimpleTree {
+  translation -0.8 0 0
+  name "tree(1)"
+  height 0.1
+  radius 0.1
+}
+SimpleTree {
+  translation -0.4 0 0
+  name "tree(2)"
+  height 0.1
+  radius 0.1
+}
+SimpleTree {
+  translation 0.8 0 0
+  name "tree(3)"
+  height 0.1
+  radius 0.1
+}
+SimpleTree {
+  translation 0.8 -0.4 0
+  name "tree(10)"
+  height 0.1
+  radius 0.1
+}
+SimpleTree {
+  translation 0.4 -0.4 0
+  name "tree(11)"
+  height 0.1
+  radius 0.1
+}
+SimpleTree {
+  translation 0 -0.39 0
+  name "tree(12)"
+  height 0.1
+  radius 0.1
+}
+SimpleTree {
+  translation -0.4 -0.4 0
+  name "tree(13)"
+  height 0.1
+  radius 0.1
+}
+SimpleTree {
+  translation -0.8 -0.4 0
+  name "tree(14)"
+  height 0.1
+  radius 0.1
+}
+SimpleTree {
+  translation 0.4 0 0
+  name "tree(4)"
+  height 0.1
+  radius 0.1
+}
+SimpleTree {
+  translation 0.8 0.4 0
+  name "tree(5)"
+  height 0.1
+  radius 0.1
+}
+SimpleTree {
+  translation 0.4 0.4 0
+  name "tree(6)"
+  height 0.1
+  radius 0.1
+}
+SimpleTree {
+  translation 0 0.4 0
+  name "tree(7)"
+  height 0.1
+  radius 0.1
+}
+SimpleTree {
+  translation -0.4 0.4 0
+  name "tree(8)"
+  height 0.1
+  radius 0.1
+}
+SimpleTree {
+  translation -0.8 0.4 0
+  name "tree(9)"
+  height 0.1
+  radius 0.1
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 2 2
+  floorAppearance Parquetry {
+    type "dark strip"
+    colorOverride 0.333333 0.666667 0
+  }
+}
+E-puck {
+  translation -0.4 0.8 0
+  rotation 4.293379998975429e-06 -2.142069999488817e-05 0.9999999997613602 -1.6989153071795862
+  name "Rover-1"
+  controller "rover_controller"
+  distance_sensor_numberOfRays 2
+}
+E-puck {
+  translation -0.2 0.8 0
+  rotation 0.00243412112998331 -0.0010707904970892268 0.9999964642247671 -1.775235307179586
+  name "Rover-2"
+  controller "rover_controller"
+}
+E-puck {
+  translation 0 0.8 0
+  rotation -0.0013504896352166122 0.0008464037713762275 0.9999987298883938 -1.7011853071795864
+  name "Rover-3"
+  controller "rover_controller"
+}
+E-puck {
+  translation 0.2 0.8 0
+  rotation 0.000138374 0.000653816878364835 -0.9999997766879907 1.5988201342607196
+  name "Rover-4"
+  controller "rover_controller"
+}
+E-puck {
+  translation 0.4 0.8 0
+  rotation -1.1157003460868105e-06 0.0030626109500124826 0.9999953101954648 -1.410845307179586
+  name "Rover-5"
+  controller "rover_controller"
+}
