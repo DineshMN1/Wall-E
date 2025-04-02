@@ -1,3 +1,4 @@
+// Monitoring.js
 'use client';
 import React, { useEffect, useState } from 'react';
 
@@ -22,10 +23,10 @@ const Monitoring = () => {
     async function fetchRoverData() {
       try {
         const [statusRes, batteryRes, coordRes, sensorRes] = await Promise.all([
-          fetch('/api/rovers/Rover-1/status'),
-          fetch('/api/rovers/Rover-1/battery'),
-          fetch('/api/rovers/Rover-1/coordinates'),
-          fetch('/api/rovers/Rover-1/sensors'), // if you used `/sensor-data`, rename here
+          fetch('/api/rovers?roverId=Rover-1&dataType=status'),
+          fetch('/api/rovers?roverId=Rover-1&dataType=battery'),
+          fetch('/api/rovers?roverId=Rover-1&dataType=coordinates'),
+          fetch('/api/rovers?roverId=Rover-1&dataType=sensors'), // Assuming you used '/sensor-data' as the type
         ]);
 
         const status = await statusRes.json();
@@ -61,7 +62,7 @@ const Monitoring = () => {
       {!roverData && !error && <p className="text-gray-600">Loading...</p>}
 
       {roverData && (
-        <div className="bg-white p-6 rounded shadow-md w-full max-w-md">
+        <div className="bg-black  text-white p-6 rounded shadow-md w-full max-w-md">
           <p><strong>Status:</strong> {roverData.status}</p>
           <p><strong>Battery:</strong> 🔋 {roverData.battery}%</p>
           <p><strong>Coordinates:</strong> 📍 {roverData.coordinates?.join(', ')}</p>
