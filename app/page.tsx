@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Image from 'next/image';
+import Image from "next/image";
 
 export default function Home() {
   return (
@@ -8,11 +8,13 @@ export default function Home() {
       <header className="container mx-auto px-4 py-6 md:py-8 relative">
         <nav className="flex justify-between items-center mb-16">
           <div className="flex items-center gap-2">
-            <span className="font-bold text-xl ">Wall-E Rover</span>
+            <span className="font-bold text-xl">Wall-E Rover</span>
           </div>
           <div className="flex gap-4">
             <Link href="/dashboard">
-              <button className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-500">Dashboard</button>
+              <button className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-500">
+                Dashboard
+              </button>
             </Link>
           </div>
         </nav>
@@ -23,7 +25,8 @@ export default function Home() {
               Autonomous Rover Fleet Management
             </h1>
             <p className="text-lg text-gray-500 mb-8">
-              Monitor, control, and analyze autonomous rovers in real-time with our intelligent fleet management system.
+              Monitor, control, and analyze autonomous rovers in real-time with
+              our intelligent fleet management system.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link href="/dashboard">
@@ -39,13 +42,13 @@ export default function Home() {
             </div>
           </div>
           <div className="relative h-[300px] md:h-[400px] flex items-center justify-center bg-gray-200 rounded-lg">
-  <Image
-    src="/image4.jpg" 
-    alt="Image description" 
-    layout="fill" 
-    objectFit="cover" 
-  />
-</div>
+            <Image
+              src="/image4.jpg"
+              alt="Image description"
+              layout="fill"
+              objectFit="cover"
+            />
+          </div>
         </div>
       </header>
 

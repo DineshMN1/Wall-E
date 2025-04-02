@@ -29,9 +29,6 @@ export const Navbar = ({ menuOpen, setMenuOpen }: NavbarProps) => {
                         <Link href="#simulation" className="text-gray-300 hover:text-white transition-colors">
                             Simulation
                         </Link>
-                        <Link href="#monitoring" className="text-gray-300 hover:text-white transition-colors">
-                            Monitoring
-                        </Link>
                         <Link href="#analysis" className="text-gray-300 hover:text-white transition-colors">
                             Analysis
                         </Link>

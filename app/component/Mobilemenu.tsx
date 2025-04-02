@@ -24,14 +24,6 @@ export const Mobileview = ({ menuOpen, setMenuOpen }: MobileviewProps) => {
                 Simulation 
                 </a>
                 <a
-                  href="#monitoring" 
-                  onClick={() => setMenuOpen(false)}
-                  className={`text-2xl font-semiboid text-white my-4 transform transition-transform duration-300 ease-in-out
-                    ${menuOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-5"}`}
-                > 
-                Monitoring 
-                </a>
-                <a
                   href="#analysis" 
                   onClick={() => setMenuOpen(false)}
                   className={`text-2xl font-semiboid text-white my-4 transform transition-transform duration-300 ease-in-out
