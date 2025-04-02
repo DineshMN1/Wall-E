@@ -1,0 +1,120 @@
+{
+  "name": "My workflow 2",
+  "nodes": [
+    {
+      "parameters": {
+        "url": "https://fleetbots-production.up.railway.app/api/rover/Rover-1/sensor-data?session_id=265ff22a-b707-4277-a307-75a29f66b763",
+        "options": {}
+      },
+      "name": "Fetch Sensor Data",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        -200,
+        20
+      ],
+      "id": "81596e19-f788-480a-b49c-4397db41b656"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{$json[\"soil_pH\"]}}",
+              "operation": "larger",
+              "value2": 5
+            }
+          ]
+        }
+      },
+      "name": "Check pH Level",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "0ea69e38-aba3-4391-b304-7b94213211e5"
+    },
+    {
+      "parameters": {
+        "chatId": "5545396929",
+        "text": "=ALERT !!!!!! {{ $json.soil_pH }}",
+        "additionalFields": {}
+      },
+      "name": "Send Telegram Alert",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1,
+      "position": [
+        320,
+        0
+      ],
+      "id": "d9a95268-9c4d-4999-a31d-bbcf493802a3",
+      "webhookId": "51b2f496-1d5b-4b56-a0c7-15de2893c103",
+      "credentials": {
+        "telegramApi": {
+          "id": "6mY31JwNMPnTcIUy",
+          "name": "Telegram account 3"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -380,
+        20
+      ],
+      "id": "348dab24-db57-4694-950e-9ce8260bc381",
+      "name": "When clicking ‘Test workflow’"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Fetch Sensor Data": {
+      "main": [
+        [
+          {
+            "node": "Check pH Level",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check pH Level": {
+      "main": [
+        [
+          {
+            "node": "Send Telegram Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Fetch Sensor Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "98edebb5-602d-4ee8-9c5d-e6e6a2577d34",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "b34a6c700907755b6fd33d1990b4061b13eb1aedf00d83ba1925bc7df1cafc03"
+  },
+  "id": "tmlbootE3PWUf9b4",
+  "tags": []
+}
