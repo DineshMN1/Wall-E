@@ -6,6 +6,18 @@ This project integrates **Webots Simulation** with a **Backend Monitoring System
 
 The backend system provides real-time data updates for each rover, including environmental and operational metrics. This system is perfect for simulating and monitoring fleets of autonomous rovers or similar robotic systems.
 
+## Dashboard
+![image](https://github.com/user-attachments/assets/52806467-0a93-42ee-9f0e-3f5988f52c40)
+
+## Simulation
+![simulation-preview](https://github.com/user-attachments/assets/8726b20c-79a0-4661-8f01-8e589667f2b9)
+
+## Data Analysis
+![image](https://github.com/user-attachments/assets/2bba81aa-39b7-43c2-a90e-020225b92b19)
+
+## Alerts
+![image](https://github.com/user-attachments/assets/23f8c260-860d-48e1-94f2-bde60e3c32e9)
+
 ## Features
 
 - **Simulate Multiple Rovers**: Control multiple rovers in Webots, a robot simulation software.
