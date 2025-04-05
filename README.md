@@ -1,6 +1,6 @@
-# 🚜 Wall-E: Autonomous Fleet-Based Rover System for Smart Agricultural Supervision
+# Wall-E: Autonomous Fleet-Based Rover System for Smart Agricultural Supervision
 
-## 🌐 Project Overview
+## Project Overview
 
 **Wall-E** is a smart simulation and monitoring system that manages a **fleet of autonomous agricultural rovers** using **Webots Simulation** and a custom backend with real-time dashboards. It continuously fetches rover data every **2 seconds** and displays metrics like GPS location, battery, soil moisture, and temperature.
 
@@ -8,40 +8,40 @@ Each **rover** is assigned a dynamic session ID to sync individual data streams.
 
 ---
 
-## 📊 Dashboard  
+## Dashboard  
 
 ![Dashboard](/public/home.jpg)
 
-## 🚁 Simulation
+## Simulation
 
 ![Simulation](/public/simulation.jpg)
 
-## 📈 Data Analysis
+## Data Analysis
 
 ![Data Analysis](/public/analyse.jpg)
 
-## 🚨 Alerts
+## Alerts
 
 ![Alerts](/public/alert.jpg)
 
-## 🤖 N8N Bot Workflow  
+## N8N Bot Workflow  
 
 ![Bot](/public/n8n.jpg)
 
 ---
 
-## ⚙️ Features
+## Features
 
-- 🌾 Simulate and monitor **multiple rovers** in real-time
-- 🏎️ Fetch rover data every **2 seconds** from the backend
-- 🧠 Dynamic session-based data handling
-- 🔋 Monitor **battery**, **GPS**, **soil moisture**, and **temperature**
-- 🗂️ Continuous **logging** for analytics
-- 📢 Automated **alerts** via N8N workflows
+- Simulate and monitor **multiple rovers** in real-time
+- Fetch rover data every **2 seconds** from the backend
+- Dynamic session-based data handling
+- Monitor **battery**, **GPS**, **soil moisture**, and **temperature**
+- Continuous **logging** for analytics
+- Automated **alerts** via N8N workflows
 
 ---
 
-## 💻 Tech Stack
+## Tech Stack
 
 - **Webots** – Robot simulation platform for autonomous fleets  
 - **Python** – Backend scripting and data handling  
@@ -55,7 +55,7 @@ Each **rover** is assigned a dynamic session ID to sync individual data streams.
 
 ---
 
-## 📦 Requirements
+## Requirements
 
 - Webots: [Download from Cyberbotics](https://cyberbotics.com/)
 - Python 3.x
@@ -70,7 +70,7 @@ pip install flask requests opencv
 
 ---
 
-## 🛠️ Installation
+## Installation
 
 Clone the repository and set up your environment:
 
@@ -81,7 +81,7 @@ cd Wall-E
 
 ---
 
-## 👨‍💻 Team Details
+## Team Details
 
 | Name            | GitHub Profile                                |
 |-----------------|------------------------------------------------|
@@ -92,12 +92,12 @@ cd Wall-E
 
 ---
 
-## 📄 License
+## License
 
 This project is licensed under the [MIT License](LICENSE).
 
 ---
 
-## 📬 Contact
+## Contact
 
 If you have questions or want to contribute, feel free to open an issue or contact us through our GitHub profiles.
