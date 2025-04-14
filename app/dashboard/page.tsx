@@ -4,7 +4,6 @@ import { Navbar } from '../component/Navbar';
 import { Mobileview } from '../component/Mobilemenu';
 import Simulation from './section/Simulation';
 import Analysis from './section/Analysis';
-import Alert from './section/Alert';
 
 type RoverData = {
   id: string; 
@@ -88,7 +87,6 @@ const Dashboard = () => {
       <Mobileview menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
       <Simulation />
       <Analysis roversData={roversData} error={error} />
-      <Alert />
     </div>
   );
 }
