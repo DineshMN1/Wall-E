@@ -12,12 +12,7 @@ interface IrrigationSchedule {
 const Irrigate: React.FC = () => {
   const [schedules, setSchedules] = useState<IrrigationSchedule[]>([]);
   const [showModal, setShowModal] = useState<boolean>(false);
-  const [newSchedule, setNewSchedule] = useState<{
-    date: string;
-    time: string;
-    map: string;
-    level: string;
-  }>({
+  const [newSchedule, setNewSchedule] = useState({
     date: '',
     time: '',
     map: 'Map 1',
@@ -26,20 +21,14 @@ const Irrigate: React.FC = () => {
 
   const handleAddSchedule = () => {
     const newId = schedules.length + 1;
-    setSchedules([
-      ...schedules,
-      { id: newId, ...newSchedule },
-    ]);
-    setNewSchedule({
-      date: '',
-      time: '',
-      map: 'Map 1',
-      level: '100%',
-    });
+    setSchedules([...schedules, { id: newId, ...newSchedule }]);
+    setNewSchedule({ date: '', time: '', map: 'Map 1', level: '100%' });
     setShowModal(false);
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setNewSchedule((prevState) => ({
       ...prevState,
@@ -48,9 +37,9 @@ const Irrigate: React.FC = () => {
   };
 
   return (
-    <div className="w-200 bg-zinc-950 text-white p-4 rounded-lg shadow-md">
+    <div className="w-full bg-zinc-950 text-white p-4 rounded-lg shadow-md">
       {/* Header */}
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
         <div className="flex items-center space-x-2">
           <Calendar
             size={30}
@@ -62,7 +51,7 @@ const Irrigate: React.FC = () => {
 
         <button
           onClick={() => setShowModal(true)}
-          className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
+          className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 w-full sm:w-auto"
         >
           + Add Schedule
         </button>
@@ -95,8 +84,8 @@ const Irrigate: React.FC = () => {
 
       {/* Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white text-black p-6 rounded-lg w-96">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 px-4">
+          <div className="bg-white text-black p-6 rounded-lg max-w-xs w-full sm:w-96">
             <h3 className="text-xl mb-4">Add Irrigation Schedule</h3>
 
             <div className="mb-3">

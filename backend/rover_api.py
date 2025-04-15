@@ -1,11 +1,12 @@
-from flask import Flask, jsonify, Response
+from flask import Flask, jsonify, Response, request
 from flask_cors import CORS
 import requests
 import time
 import os
 import cv2
 import subprocess
-import psutil  # pip install psutil
+import psutil
+import socket
 
 app = Flask(__name__)
 CORS(app)
@@ -14,17 +15,23 @@ CORS(app)
 API_BASE = "https://fleetbots-production.up.railway.app/api"
 ROVERS = [f"Rover-{i}" for i in range(1, 6)]
 DIRECTIONS = ["forward", "backward", "left", "right"]
-TASKS = ["Soil Analysis", "Irrigation", "Weeding", "Crop Monitoring"]
 SESSION_FILE = "session_id.txt"
 LOG_FILE = "session_log.txt"
 SESSION_REFRESH_INTERVAL = 50
+ROVER_SOCKET_PORTS = {
+    "Rover-1": 9001,
+    "Rover-2": 9002,
+    "Rover-3": 9003,
+    "Rover-4": 9004,
+    "Rover-5": 9005
+}
 
 # === Globals ===
 session_id = None
 request_counter = 0
 webots_process = None
 
-# ========== Session Utilities ==========
+# === Session Utilities ===
 def write_session_to_file(sid):
     with open(SESSION_FILE, "w") as f:
         f.write(sid)
@@ -56,19 +63,7 @@ def refresh_session_if_needed():
         request_counter = 0
         start_session()
 
-# ========== Rover API ==========
-def get_data(path):
-    refresh_session_if_needed()
-    sid = session_id or read_session_from_file()
-    if not sid:
-        return {"error": "No active session_id"}
-    try:
-        res = requests.get(f"{API_BASE}/{path}?session_id={sid}", timeout=5)
-        res.raise_for_status()
-        return res.json()
-    except Exception as e:
-        return {"error": str(e)}
-
+# === Rover API ===
 @app.route("/rovers/<rover_id>/<data_type>")
 def fetch_rover_data(rover_id, data_type):
     if rover_id not in ROVERS:
@@ -85,7 +80,19 @@ def fetch_rover_data(rover_id, data_type):
     data = get_data(endpoint_map[data_type])
     return jsonify(data)
 
-# ========== Simulation Controls ==========
+def get_data(path):
+    refresh_session_if_needed()
+    sid = session_id or read_session_from_file()
+    if not sid:
+        return {"error": "No active session_id"}
+    try:
+        res = requests.get(f"{API_BASE}/{path}?session_id={sid}", timeout=5)
+        res.raise_for_status()
+        return res.json()
+    except Exception as e:
+        return {"error": str(e)}
+
+# === Webots Simulation Controls ===
 @app.route("/start")
 def start_simulation():
     global webots_process
@@ -118,9 +125,65 @@ def reset_simulation():
             return jsonify({"message": f"❌ Failed to reset: {e}"}), 500
     return start_simulation()
 
-# ========== OBS Live Stream ==========
+# === Broadcast to All Rovers ===
+def broadcast_socket_command(command):
+    results = []
+    for port in ROVER_SOCKET_PORTS.values():
+        try:
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            s.connect(("localhost", port))
+            s.send(command.encode())
+            s.close()
+            results.append(f"✅ Command '{command}' sent to port {port}")
+        except Exception as e:
+            results.append(f"❌ Port {port} failed: {e}")
+    return results
+
+@app.route("/forward")
+def move_all_forward():
+    result = broadcast_socket_command("FORWARD")
+    return jsonify({
+        "message": "🚀 Forward command sent to all rovers",
+        "result": result
+    })
+
+@app.route("/backward")
+def move_all_backward():
+    result = broadcast_socket_command("BACKWARD")
+    return jsonify({
+        "message": "⬅️ Backward command sent to all rovers",
+        "result": result
+    })
+
+# === Move Individual Rover with Direction ===
+@app.route("/move")
+def move_single_rover():
+    rover = request.args.get("rover")
+    direction = request.args.get("dir")
+
+    if not rover or not direction:
+        return jsonify({"message": "❌ Missing 'rover' or 'dir' parameter"}), 400
+
+    port = ROVER_SOCKET_PORTS.get(rover)
+    if not port:
+        return jsonify({"message": f"❌ Unknown rover name: {rover}"}), 400
+
+    direction_upper = direction.strip().upper()
+    if direction_upper not in ["FORWARD", "BACKWARD", "LEFT", "RIGHT"]:
+        return jsonify({"message": f"❌ Invalid direction: {direction}"}), 400
+
+    try:
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.connect(("localhost", port))
+        s.send(direction_upper.encode())
+        s.close()
+        return jsonify({"message": f"✅ Sent '{direction_upper}' to {rover}"})
+    except Exception as e:
+        return jsonify({"message": f"❌ Socket error: {e}"}), 500
+
+# === OBS Stream ===
 def gen():
-    cap = cv2.VideoCapture(1)  # 🔁 Adjust to correct OBS virtual cam index
+    cap = cv2.VideoCapture(1)
     if not cap.isOpened():
         raise RuntimeError("❌ OBS virtual camera not found.")
     while True:
@@ -135,12 +198,10 @@ def gen():
 def video_feed():
     return Response(gen(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
-# ========== Test Root ==========
 @app.route("/")
 def home():
     return jsonify({"message": "🌱 Rover API is running with Simulation + OBS!"})
 
-# ========== Run Server ==========
 if __name__ == "__main__":
     start_session()
     app.run(host="localhost", port=5050)

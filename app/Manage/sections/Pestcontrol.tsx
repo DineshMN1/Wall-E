@@ -1,20 +1,19 @@
 import React, { useState } from 'react';
 
 const Pestcontrol: React.FC = () => {
-  const [selectedField, setSelectedField] = useState<number>(1); // Default to Field 1
+  const [selectedField, setSelectedField] = useState<number>(1);
 
-  // Define the fields data with pest areas, percentage, and status
   const fields = [
     {
       id: 1,
       name: 'Field 1',
       image: './map/1.png',
       pestAreas: [
-        { top: '30%', left: '30%', color: 'red' },   // Red represents high pest concentration
-        { top: '40%', left: '60%', color: 'orange' }, // Orange represents medium pest concentration
-        { top: '60%', left: '60%', color: 'brown' },   // Brown represents low pest concentration
+        { top: '30%', left: '30%', color: 'red' },
+        { top: '40%', left: '60%', color: 'orange' },
+        { top: '60%', left: '60%', color: 'brown' },
       ],
-      pestLevel: 60, // 60% pest concentration
+      pestLevel: 60,
       status: 'Danger',
     },
     {
@@ -26,7 +25,7 @@ const Pestcontrol: React.FC = () => {
         { top: '50%', left: '70%', color: 'red' },
         { top: '70%', left: '20%', color: 'brown' },
       ],
-      pestLevel: 40, // 40% pest concentration
+      pestLevel: 40,
       status: 'Warning',
     },
     {
@@ -38,17 +37,15 @@ const Pestcontrol: React.FC = () => {
         { top: '40%', left: '60%', color: 'red' },
         { top: '60%', left: '40%', color: 'orange' },
       ],
-      pestLevel: 20, // 20% pest concentration
+      pestLevel: 20,
       status: 'Okay',
     },
   ];
 
-  // Handle the field selection
   const handleSelectField = (fieldId: number) => {
     setSelectedField(fieldId);
   };
 
-  // Function to determine the status color
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'Danger':
@@ -66,12 +63,14 @@ const Pestcontrol: React.FC = () => {
     <div className="bg-gray-900 text-white p-5 rounded-lg shadow-md">
       <div className="mb-6">
         <label htmlFor="field-select" className="block text-sm font-medium text-gray-300 mb-2">Select a Field</label>
-        <div className="flex space-x-4 mb-4">
+
+        {/* Horizontally scrollable field buttons on mobile */}
+        <div className="flex space-x-4 mb-4 overflow-x-auto pb-2">
           {fields.map(field => (
             <button
               key={field.id}
               onClick={() => handleSelectField(field.id)}
-              className={`px-4 py-2 rounded-lg transition-colors duration-200 ${selectedField === field.id ? 'bg-green-600' : 'bg-gray-800'} hover:bg-green-700`}
+              className={`flex-shrink-0 px-4 py-2 rounded-lg transition-colors duration-200 ${selectedField === field.id ? 'bg-green-600' : 'bg-gray-800'} hover:bg-green-700`}
             >
               {field.name}
             </button>
@@ -79,33 +78,32 @@ const Pestcontrol: React.FC = () => {
         </div>
       </div>
 
+      {/* Stack on mobile, row on desktop */}
       <div className="flex flex-col md:flex-row gap-4">
-        <div className="w-[40%] relative">
+        <div className="w-full md:w-[40%] relative">
           <img
             src={fields.find(field => field.id === selectedField)?.image}
             alt={`Field ${selectedField}`}
             className="rounded-lg shadow-lg w-full"
           />
-          {/* Render the pest areas as colored dots */}
-          {fields
-            .find(field => field.id === selectedField)
-            ?.pestAreas.map((area, index) => (
-              <div
-                key={index}
-                className={`absolute rounded-full w-8 h-8`}
-                style={{
-                  top: area.top,
-                  left: area.left,
-                  backgroundColor:
-                    area.color === 'red'
-                      ? 'rgba(255, 0, 0, 0.5)'
-                      : area.color === 'orange'
-                      ? 'rgba(255, 165, 0, 0.5)'
-                      : 'rgba(139, 69, 19, 0.5)',
-                }}
-              ></div>
-            ))}
+          {fields.find(field => field.id === selectedField)?.pestAreas.map((area, index) => (
+            <div
+              key={index}
+              className={`absolute rounded-full w-8 h-8`}
+              style={{
+                top: area.top,
+                left: area.left,
+                backgroundColor:
+                  area.color === 'red'
+                    ? 'rgba(255, 0, 0, 0.5)'
+                    : area.color === 'orange'
+                    ? 'rgba(255, 165, 0, 0.5)'
+                    : 'rgba(139, 69, 19, 0.5)',
+              }}
+            />
+          ))}
         </div>
+
         <div className="flex-1 md:pl-6">
           <h3 className="text-2xl font-semibold mb-4">{fields.find(field => field.id === selectedField)?.name}</h3>
           <p className="text-lg">This is the pest control map with marked areas showing pest levels in different colors.</p>
