@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-// Define the type for each map (now referring to them as fields)
 interface Field {
   id: number;
   name: string;
@@ -9,13 +8,12 @@ interface Field {
   crop: string;
   harvestTime: string;
   currentCrop: string;
-  daysToHarvest: number; // Days left to harvest
+  daysToHarvest: number;
 }
 
 const FarmMap: React.FC = () => {
-  const [selectedField, setSelectedField] = useState<number>(1); // Default to Field 1
+  const [selectedField, setSelectedField] = useState<number>(1);
 
-  // Define the fields data with detailed crop information
   const fields: Field[] = [
     {
       id: 1,
@@ -24,8 +22,8 @@ const FarmMap: React.FC = () => {
       section: 'Field Map 1 Details',
       crop: 'Rice',
       harvestTime: '4 months',
-      currentCrop: 'Rice', // Current crop growing in the field
-      daysToHarvest: 39, // Days left to harvest
+      currentCrop: 'Rice',
+      daysToHarvest: 39,
     },
     {
       id: 2,
@@ -34,8 +32,8 @@ const FarmMap: React.FC = () => {
       section: 'Field Map 2 Details',
       crop: 'Wheat',
       harvestTime: '3 months',
-      currentCrop: 'Wheat', // Current crop growing in the field
-      daysToHarvest: 17, // Days left to harvest
+      currentCrop: 'Wheat',
+      daysToHarvest: 17,
     },
     {
       id: 3,
@@ -44,22 +42,20 @@ const FarmMap: React.FC = () => {
       section: 'Field Map 3 Details',
       crop: 'Sugarcane',
       harvestTime: '12 months',
-      currentCrop: 'Sugarcane', // Current crop growing in the field
-      daysToHarvest: 91, // Days left to harvest
+      currentCrop: 'Sugarcane',
+      daysToHarvest: 91,
     },
   ];
 
-  // Handle the field selection
   const handleSelectField = (fieldId: number) => {
     setSelectedField(fieldId);
   };
 
-  // Render the section based on the selected field
   const renderSection = (fieldId: number) => {
     const field = fields.find(f => f.id === fieldId);
     return field ? (
-      <div className="mt-4 text-xl">
-        <h3 className="text-2xl font-semibold mb-4">{field.name}</h3>
+      <div className="mt-4 text-base sm:text-lg">
+        <h3 className="text-xl font-semibold mb-4">{field.name}</h3>
         <p className="mb-2"><strong>Current Crop:</strong> {field.currentCrop}</p>
         <p className="mb-2"><strong>Details:</strong> This field is currently planted with {field.currentCrop}.</p>
         <p className="mb-2"><strong>Harvest Time:</strong> {field.harvestTime}</p>
@@ -72,12 +68,16 @@ const FarmMap: React.FC = () => {
     <div className="bg-gray-900 text-white p-5 rounded-lg shadow-md">
       <div className="mb-6">
         <label htmlFor="field-select" className="block text-sm font-medium text-gray-300 mb-2">Select a Field</label>
-        <div className="flex space-x-4 mb-4">
+
+        {/* Horizontal Scroll on Mobile */}
+        <div className="flex space-x-4 overflow-x-auto pb-1">
           {fields.map(field => (
             <button
               key={field.id}
               onClick={() => handleSelectField(field.id)}
-              className={`px-4 py-2 rounded-lg transition-colors duration-200 ${selectedField === field.id ? 'bg-green-600' : 'bg-gray-800'} hover:bg-green-700`}
+              className={`flex-shrink-0 px-4 py-2 rounded-lg transition-colors duration-200 ${
+                selectedField === field.id ? 'bg-green-600' : 'bg-gray-800'
+              } hover:bg-green-700`}
             >
               {field.name}
             </button>
@@ -85,12 +85,13 @@ const FarmMap: React.FC = () => {
         </div>
       </div>
 
+      {/* Stack on mobile, side-by-side on desktop */}
       <div className="flex flex-col md:flex-row gap-4">
-        <div className="w-[40%]">
+        <div className="w-full md:w-[40%]">
           <img
             src={fields.find(field => field.id === selectedField)?.image}
             alt={`Field ${selectedField}`}
-            className="rounded-lg shadow-lg"
+            className="rounded-lg shadow-lg w-full"
           />
         </div>
         <div className="flex-1 md:pl-6">
